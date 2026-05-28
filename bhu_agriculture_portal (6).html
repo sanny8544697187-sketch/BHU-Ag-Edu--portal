@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BHU Agriculture e-Learning Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --g9:#0d3321;--g8:#145232;--g7:#1a6d43;--g6:#1e8a53;--g5:#25a865;--g4:#4dc488;
+  --g1:#d4f0e2;--g0:#edf9f3;--r5:#d83030;--r1:#fde8e8;--b5:#1d6fd8;--b1:#e0eeff;
+  --a5:#d97706;--a1:#fef3d7;--gr9:#1a1a1a;--gr7:#374151;--gr5:#6b7280;--gr2:#e5e7eb;--gr1:#f3f4f6;
+  --sh1:0 1px 3px rgba(0,0,0,.08);--sh2:0 4px 16px rgba(0,0,0,.10);--sh3:0 10px 40px rgba(0,0,0,.14);
+  --r:10px;--rl:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:#f0f4f1;color:var(--gr9);min-height:100vh;}
+body.dark{background:#111;color:#e5e5e5;}
+body.dark .card,body.dark .mbox,body.dark .qsec,body.dark .dpanel,body.dark nav.mn,body.dark .admin-panel{background:#1e1e1e;border-color:#333;}
+body.dark header{background:var(--g9);}
+body.dark .sbg{background:#161616;}
+body.dark input,body.dark select,body.dark textarea{background:#2a2a2a;color:#e5e5e5;border-color:#444;}
+body.dark .ni{background:#1a2e22;border-color:#3a5040;}
+body.dark .pending-item{background:#2a2218;border-color:#5a4010;}
+body.dark footer{background:#0a0a0a;}
+body.dark .stag{background:#2a2a2a;color:#aaa;}
+body.dark .stitle{color:var(--g4);}
+body.dark .admin-stat{background:#2a2a2a;border-color:#444;}
+body.dark .atab.active{background:var(--g7);border-color:var(--g7);}
+body.dark .atab{background:#2a2a2a;border-color:#444;color:#ccc;}
+a{text-decoration:none;color:inherit;}
+/* BANNER */
+#setupBanner{background:linear-gradient(to right,#1e3a5f,#1e4080);color:white;padding:11px 20px;text-align:center;font-size:13px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+.setup-btn{background:#0ea5e9;border:none;color:white;padding:6px 16px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600;}
+.dismiss-btn{background:transparent;border:1px solid rgba(255,255,255,.3);color:white;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;}
+/* HEADER */
+header{background:linear-gradient(135deg,var(--g9),var(--g7));color:white;}
+.hi{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;gap:12px;flex-wrap:wrap;}
+.lb{display:flex;align-items:center;gap:14px;}
+.lc{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.lt h1{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;line-height:1.2;}
+.lt p{font-size:12px;opacity:.75;margin-top:1px;}
+.hr2{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+#loginBtn{background:rgba(255,255,255,.15);color:white;border:1.5px solid rgba(255,255,255,.4);padding:8px 18px;border-radius:var(--r);font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;transition:.2s;}
+#loginBtn:hover{background:rgba(255,255,255,.25);}
+#adminBtn{background:#d97706;color:white;border:none;padding:8px 16px;border-radius:var(--r);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;display:none;}
+#darkToggle{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);color:white;width:36px;height:36px;border-radius:var(--r);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.livebadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;background:rgba(255,255,255,.15);color:white;padding:4px 10px;border-radius:20px;font-weight:600;}
+.livebadge::before{content:'';width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.adminbadge{background:#d97706;color:white;font-size:11px;padding:3px 8px;border-radius:20px;font-weight:700;margin-left:6px;}
+/* NAV */
+nav.mn{background:var(--g8);padding:0 32px;display:flex;align-items:center;gap:4px;flex-wrap:wrap;position:sticky;top:0;z-index:900;box-shadow:var(--sh2);}
+nav.mn a{color:rgba(255,255,255,.82);padding:13px 15px;font-size:14px;font-weight:500;border-bottom:3px solid transparent;transition:.2s;white-space:nowrap;cursor:pointer;}
+nav.mn a:hover,nav.mn a.active{color:white;border-bottom-color:var(--g4);}
+nav.mn a.admin-link{color:#fbbf24;}
+nav.mn a.admin-link:hover{color:#fde68a;border-bottom-color:#fbbf24;}
+/* HERO */
+.hero{background:linear-gradient(to right,var(--g9),var(--g8));color:white;padding:60px 32px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=1400&q=60') center/cover;opacity:.18;}
+.hinn{position:relative;max-width:680px;margin:auto;}
+.hero h2{font-family:'Playfair Display',serif;font-size:40px;line-height:1.2;margin-bottom:14px;}
+.hero p{font-size:16px;opacity:.85;margin-bottom:26px;line-height:1.6;}
+.hbtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.bp{background:var(--g5);color:white;border:none;padding:12px 26px;border-radius:var(--r);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:.2s;}
+.bp:hover{background:var(--g6);}
+.bo{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.5);padding:12px 26px;border-radius:var(--r);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;transition:.2s;}
+.bo:hover{border-color:white;background:rgba(255,255,255,.1);}
+.sbar{display:flex;gap:36px;justify-content:center;flex-wrap:wrap;margin-top:44px;padding-top:32px;border-top:1px solid rgba(255,255,255,.15);}
+.stat{text-align:center;}
+.snum{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;}
+.slbl{font-size:12px;opacity:.7;margin-top:2px;}
+/* LAYOUT */
+.con{max-width:1100px;margin:auto;padding:44px 24px;}
+.stitle{font-family:'Playfair Display',serif;font-size:28px;color:var(--g8);margin-bottom:6px;}
+.ssub{color:var(--gr5);font-size:14px;margin-bottom:28px;}
+.sbg{background:#e8f0eb;padding:44px 0;}
+/* SEARCH */
+.srow{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.srow input{flex:1;min-width:200px;padding:10px 15px;border:1.5px solid var(--gr2);border-radius:var(--r);font-family:inherit;font-size:14px;background:white;transition:.2s;}
+.srow input:focus{outline:none;border-color:var(--g5);}
+.fsel{padding:10px 13px;border:1.5px solid var(--gr2);border-radius:var(--r);font-family:inherit;font-size:13px;background:white;cursor:pointer;}
+/* CARDS */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+.card{background:white;border-radius:var(--rl);box-shadow:var(--sh1);border:1px solid var(--gr2);padding:20px;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden;}
+.card:hover{transform:translateY(-3px);box-shadow:var(--sh2);}
+.cbadge{position:absolute;top:12px;right:12px;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;}
+.bnew{background:var(--g1);color:var(--g8);}
+.bpop{background:var(--a1);color:#7a5000;}
+.card h3{color:var(--g8);font-size:16px;font-weight:600;margin-bottom:8px;}
+body.dark .card h3{color:var(--g4);}
+.card p{font-size:13px;color:var(--gr5);margin-bottom:12px;line-height:1.6;}
+.card ul{padding-left:16px;margin-bottom:12px;}
+.card ul li{font-size:13px;color:var(--gr7);margin-bottom:5px;}
+body.dark .card ul li{color:#ccc;}
+.cact{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.bs{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:.2s;}
+.bsg{background:var(--g6);color:white;}
+.bsg:hover{background:var(--g7);}
+.bgh{background:var(--g0);color:var(--g7);border:1px solid var(--g1);}
+.bgh:hover{background:var(--g1);}
+body.dark .bgh{background:#2a3a2e;color:#7dd3a8;border-color:#3a5040;}
+.stag{display:inline-block;font-size:11px;padding:3px 8px;background:var(--gr1);color:var(--gr5);border-radius:6px;margin-right:4px;margin-bottom:4px;}
+/* PANEL */
+.dpanel{background:white;border-radius:var(--rl);box-shadow:var(--sh1);border:1px solid var(--gr2);padding:26px;}
+.dpanel h3{font-size:15px;font-weight:600;margin-bottom:16px;color:var(--g8);}
+body.dark .dpanel h3{color:var(--g4);}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:13px;font-weight:500;color:var(--gr7);margin-bottom:5px;}
+body.dark .fg label{color:#aaa;}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 13px;border:1.5px solid var(--gr2);border-radius:var(--r);font-family:inherit;font-size:14px;background:white;transition:.2s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--g5);}
+.uz{border:2px dashed var(--g4);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;transition:.2s;background:var(--g0);}
+.uz:hover,.uz.drag{background:var(--g1);border-color:var(--g6);}
+body.dark .uz{background:#1a2e22;border-color:#3a5a42;}
+#fileInput{display:none;}
+.uprog{height:7px;background:var(--gr2);border-radius:4px;margin-top:8px;overflow:hidden;display:none;}
+.uprog-fill{height:100%;background:var(--g5);border-radius:4px;transition:width .3s;}
+.tcol{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:700px){.tcol{grid-template-columns:1fr;}}
+/* NOTES */
+.ni{background:var(--g0);border:1px solid var(--g1);border-radius:var(--r);padding:13px;margin-bottom:9px;display:flex;align-items:flex-start;gap:11px;}
+.nico{font-size:22px;flex-shrink:0;}
+.ninf{flex:1;min-width:0;}
+.ninf strong{font-size:14px;color:var(--g8);display:block;margin-bottom:2px;}
+body.dark .ninf strong{color:var(--g4);}
+.ninf span{font-size:12px;color:var(--gr5);}
+.ndel{background:none;border:none;color:var(--r5);cursor:pointer;font-size:16px;padding:3px 7px;border-radius:6px;flex-shrink:0;}
+.ndel:hover{background:var(--r1);}
+/* PENDING */
+.pending-item{background:#fffbeb;border:1px solid #fde68a;border-radius:var(--r);padding:14px;margin-bottom:10px;}
+.pending-item strong{font-size:14px;color:#78350f;display:block;margin-bottom:2px;}
+.pending-item span{font-size:12px;color:#92400e;}
+.pending-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.approve-btn{background:#16a34a;color:white;border:none;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;}
+.reject-btn{background:var(--r5);color:white;border:none;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;}
+/* ADMIN PANEL */
+.admin-panel{background:white;border-radius:var(--rl);box-shadow:var(--sh2);border:2px solid #fbbf24;padding:28px;margin-bottom:24px;}
+.admin-panel h2{font-family:'Playfair Display',serif;font-size:24px;color:#78350f;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+body.dark .admin-panel h2{color:#fbbf24;}
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:24px;}
+.admin-stat{background:var(--gr1);border-radius:var(--r);padding:16px;text-align:center;border:1px solid var(--gr2);}
+.admin-stat .num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--g7);}
+.admin-stat .lbl{font-size:12px;color:var(--gr5);margin-top:3px;}
+.admin-stat.warn .num{color:#d97706;}
+.atabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.atab{padding:8px 18px;border-radius:20px;border:1.5px solid var(--gr2);background:white;font-family:inherit;font-size:13px;cursor:pointer;transition:.2s;font-weight:500;}
+.atab.active{background:var(--g6);color:white;border-color:var(--g6);}
+.admin-table{width:100%;border-collapse:collapse;font-size:13px;}
+.admin-table th{background:var(--gr1);padding:10px 12px;text-align:left;font-weight:600;color:var(--gr7);border-bottom:2px solid var(--gr2);}
+.admin-table td{padding:10px 12px;border-bottom:1px solid var(--gr2);vertical-align:middle;}
+body.dark .admin-table th{background:#2a2a2a;color:#ccc;}
+body.dark .admin-table td{border-color:#333;}
+.admin-table tr:hover td{background:var(--gr1);}
+body.dark .admin-table tr:hover td{background:#2a2a2a;}
+.status-badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;}
+.status-pending{background:var(--a1);color:#7a5000;}
+.status-approved{background:var(--g1);color:var(--g8);}
+.status-rejected{background:var(--r1);color:#991b1b;}
+/* QUIZ */
+.qsec{background:white;border-radius:var(--rl);box-shadow:var(--sh1);border:1px solid var(--gr2);padding:26px;}
+.qprog{height:6px;background:var(--gr2);border-radius:4px;margin-bottom:22px;overflow:hidden;}
+.qpf{height:100%;background:var(--g5);border-radius:4px;transition:width .4s;}
+.qqb{display:none;}
+.qqb.active{display:block;}
+.qqb h4{font-size:16px;font-weight:600;margin-bottom:14px;line-height:1.5;}
+.qopts{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+.qopt{display:flex;align-items:center;gap:10px;padding:11px 15px;border:1.5px solid var(--gr2);border-radius:var(--r);cursor:pointer;transition:.2s;font-size:14px;}
+.qopt:hover{border-color:var(--g4);background:var(--g0);}
+.qopt.sel{border-color:var(--g5);background:var(--g0);}
+.qopt.cor{border-color:#16a34a;background:#f0fdf4;color:#15803d;font-weight:500;}
+.qopt.wrng{border-color:var(--r5);background:var(--r1);color:#991b1b;}
+.rc{width:18px;height:18px;border-radius:50%;border:2px solid var(--gr2);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.qopt.sel .rc,.qopt.cor .rc{border-color:var(--g5);background:var(--g5);}
+.qopt.sel .rc::after,.qopt.cor .rc::after{content:'';width:7px;height:7px;border-radius:50%;background:white;display:block;}
+.qopt.wrng .rc{border-color:var(--r5);background:var(--r5);}
+.qnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
+.qres{text-align:center;padding:28px 0;}
+.qres .bsc{font-family:'Playfair Display',serif;font-size:52px;color:var(--g6);font-weight:700;}
+.qres p{color:var(--gr5);font-size:15px;margin-top:8px;}
+.qsubs{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+.qsb{padding:8px 18px;border-radius:20px;border:1.5px solid var(--gr2);background:white;font-family:inherit;font-size:13px;cursor:pointer;transition:.2s;}
+.qsb.active{background:var(--g6);color:white;border-color:var(--g6);}
+body.dark .qsb{background:#2a2a2a;border-color:#444;color:#ccc;}
+body.dark .qsb.active{background:var(--g7);color:white;border-color:var(--g7);}
+/* MODAL */
+.mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;padding:20px;}
+.mov.open{display:flex;}
+.mbox{background:white;border-radius:var(--rl);box-shadow:var(--sh3);padding:30px;width:100%;max-width:440px;position:relative;max-height:92vh;overflow-y:auto;}
+body.dark .mbox{background:#1e1e1e;border:1px solid #333;}
+.mbox h2{font-family:'Playfair Display',serif;font-size:23px;margin-bottom:4px;color:var(--g8);}
+body.dark .mbox h2{color:var(--g4);}
+.mbox p.sub{font-size:13px;color:var(--gr5);margin-bottom:22px;}
+.mcl{position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--gr5);line-height:1;}
+.mtabs{display:flex;border-bottom:1.5px solid var(--gr2);margin-bottom:22px;}
+.mtab{padding:10px 18px;font-family:inherit;font-size:14px;font-weight:500;border:none;background:none;cursor:pointer;color:var(--gr5);border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:.2s;}
+.mtab.active{color:var(--g7);border-bottom-color:var(--g6);}
+.tpan{display:none;}
+.tpan.active{display:block;}
+.al{padding:10px 13px;border-radius:8px;font-size:13px;margin-bottom:12px;line-height:1.5;}
+.als{background:var(--g0);color:var(--g8);border:1px solid var(--g1);}
+.ale{background:var(--r1);color:#991b1b;border:1px solid #fecaca;}
+.ubadge{display:flex;align-items:center;gap:8px;color:white;font-size:13px;}
+.uav{width:32px;height:32px;border-radius:50%;background:var(--g5);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:white;flex-shrink:0;}
+.uav.admin-av{background:#d97706;}
+/* PROFILE */
+.pbar{background:white;border-radius:var(--rl);padding:18px 22px;display:flex;align-items:center;gap:16px;box-shadow:var(--sh1);border:1px solid var(--gr2);margin-bottom:22px;flex-wrap:wrap;}
+body.dark .pbar{background:#1e1e1e;border-color:#333;}
+.pavl{width:50px;height:50px;border-radius:50%;background:var(--g6);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;color:white;font-weight:700;flex-shrink:0;}
+.pavl.admin-pav{background:#d97706;}
+/* CONTACT */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+.ccard{background:white;border-radius:var(--rl);padding:18px;border:1px solid var(--gr2);box-shadow:var(--sh1);}
+body.dark .ccard{background:#1e1e1e;border-color:#333;}
+.ccard h4{font-size:14px;font-weight:600;margin-bottom:5px;color:var(--g8);}
+body.dark .ccard h4{color:var(--g4);}
+.ccard p{font-size:13px;color:var(--gr5);line-height:1.7;}
+.loader{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.step{display:flex;gap:12px;align-items:flex-start;padding:11px;border-radius:10px;margin-bottom:8px;background:var(--gr1);}
+body.dark .step{background:#2a2a2a;}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--g6);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step p{font-size:13px;line-height:1.6;color:var(--gr7);}
+body.dark .step p{color:#ccc;}
+footer{background:var(--g9);color:rgba(255,255,255,.75);text-align:center;padding:26px 20px;}
+footer p{font-size:13px;line-height:2;}
+footer a{color:var(--g4);}
+@media(max-width:600px){
+  .hi{padding:12px 16px;}.lt h1{font-size:16px;}.hero h2{font-size:26px;}
+  .con{padding:28px 14px;}nav.mn{padding:0 8px;}nav.mn a{padding:11px 9px;font-size:13px;}
+}
+</style>
+</head>
+<body>
+
+<div id="setupBanner">
+  <span>⚡ <strong>Setup JSONBin</strong> — make uploads visible to all students on all devices</span>
+  <button class="setup-btn" onclick="document.getElementById('setupModal').classList.add('open')">Setup Now →</button>
+  <button class="dismiss-btn" onclick="document.getElementById('setupBanner').style.display='none'">Dismiss</button>
+</div>
+
+<header>
+  <div class="hi">
+    <div class="lb">
+      <div class="lc">🌾</div>
+      <div class="lt">
+        <h1>BHU Agriculture Portal</h1>
+        <p>Banaras Hindu University · Faculty of Agriculture</p>
+      </div>
+    </div>
+    <div class="hr2">
+      <span id="liveBadge" style="display:none;" class="livebadge">LIVE</span>
+      <div id="userBadge" style="display:none;"></div>
+      <button id="adminBtn" onclick="scrollTo2('adminpanel')">🛡️ Admin Panel</button>
+      <button id="loginBtn" onclick="openModal()">🎓 Student Login</button>
+      <button id="darkToggle" onclick="toggleDark()">🌙</button>
+    </div>
+  </div>
+</header>
+
+<nav class="mn">
+  <a class="active" onclick="scrollTo2('home');setNav(this)">Home</a>
+  <a onclick="scrollTo2('subjects');setNav(this)">Subjects</a>
+  <a onclick="scrollTo2('upload');setNav(this)">Upload</a>
+  <a onclick="scrollTo2('quiz');setNav(this)">Quiz</a>
+  <a id="adminNavLink" style="display:none;" class="admin-link" onclick="scrollTo2('adminpanel');setNav(this)">🛡️ Admin</a>
+  <a onclick="scrollTo2('contact');setNav(this)">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+<div class="hero">
+  <div class="hinn">
+    <h2>Learn Agriculture the Smart Way</h2>
+    <p>Upload PDFs and video links — shared instantly with all BHU Agriculture students.</p>
+    <div class="hbtns">
+      <button class="bp" onclick="scrollTo2('subjects')">📚 Explore Subjects</button>
+      <button class="bo" onclick="openModal()">🔐 Student Login</button>
+    </div>
+  </div>
+  <div class="sbar">
+    <div class="stat"><div class="snum">9+</div><div class="slbl">Subjects</div></div>
+    <div class="stat"><div class="snum" id="statUploads">0</div><div class="slbl">Resources Live</div></div>
+    <div class="stat"><div class="snum" id="statPending">0</div><div class="slbl">Pending Review</div></div>
+    <div class="stat"><div class="snum">100%</div><div class="slbl">Free</div></div>
+  </div>
+</div>
+</section>
+
+<!-- SUBJECTS -->
+<section id="subjects" class="con">
+  <h2 class="stitle">📖 Agriculture Subjects</h2>
+  <p class="ssub">Click <strong>Notes</strong> or <strong>Lectures</strong> to open approved PDFs and videos</p>
+  <div class="srow">
+    <input type="text" id="searchInput" placeholder="🔍 Search subjects..." oninput="searchSubjects()">
+    <select class="fsel" id="filterSelect" onchange="searchSubjects()">
+      <option value="">All Categories</option>
+      <option value="core">Core</option>
+      <option value="applied">Applied</option>
+      <option value="science">Science</option>
+    </select>
+  </div>
+  <div class="sgrid" id="subjectContainer"></div>
+</section>
+
+<!-- UPLOAD -->
+<section id="upload" class="sbg">
+<div class="con">
+  <h2 class="stitle">📤 Upload Notes &amp; Lectures</h2>
+  <p class="ssub">Submit your notes — <strong>Admin will review and approve</strong> before they go live for all students</p>
+  <div id="profileBar" style="display:none;"></div>
+  <div class="tcol">
+    <div class="dpanel">
+      <h3>📋 Submit New Resource</h3>
+      <div id="uploadAlert"></div>
+      <div class="fg"><label>Title *</label><input type="text" id="noteTitle" placeholder="e.g. Agronomy Unit 2 — Weed Management"></div>
+      <div class="fg"><label>Subject *</label>
+        <select id="subjectSelect">
+          <option value="">— Select Subject —</option>
+          <option>Agronomy</option><option>Horticulture</option><option>Soil Science</option>
+          <option>Plant Physiology</option><option>Genetics and Plant Breeding</option>
+          <option>Plant Pathology</option><option>Entomology</option>
+          <option>Agricultural Meteorology</option><option>Agricultural Economics</option>
+        </select>
+      </div>
+      <div class="fg"><label>Type</label>
+        <select id="resourceType">
+          <option value="PDF">📄 PDF Notes</option>
+          <option value="Video">🎬 Video Lecture</option>
+          <option value="Link">🔗 Google Drive / Other Link</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Paste Link (Google Drive / YouTube)</label>
+        <input type="url" id="noteLink" placeholder="https://drive.google.com/... or youtube.com/...">
+        <p style="font-size:11px;color:var(--gr5);margin-top:4px;">Google Drive: right-click file → Share → Anyone with link → Copy</p>
+      </div>
+      <div class="fg">
+        <label>Upload PDF / Image <span style="color:var(--gr5);font-weight:400;">(max 4MB)</span></label>
+        <div class="uz" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <div style="font-size:30px;">📂</div>
+          <p id="fileLabel" style="margin-top:6px;">Click or drag &amp; drop file here</p>
+          <p style="font-size:11px;color:#aaa;margin-top:3px;">PDF, JPG, PNG · Max 4MB</p>
+        </div>
+        <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFile(this)">
+        <div class="uprog" id="uploadProg"><div class="uprog-fill" id="uploadProgFill" style="width:0%"></div></div>
+      </div>
+      <div class="fg"><label>Description (optional)</label><textarea id="noteDesc" rows="2" placeholder="What topics does this cover..."></textarea></div>
+      <button class="bp" style="width:100%;padding:12px;font-size:15px;" id="uploadBtn" onclick="addNote()">📨 Submit for Review</button>
+      <div style="margin-top:12px;padding:10px 14px;background:var(--a1);border-radius:8px;font-size:12px;color:#78350f;border:1px solid #fde68a;">
+        ⏳ Your submission will be reviewed by the Admin before going live for all students.
+      </div>
+    </div>
+    <div class="dpanel">
+      <h3>✅ Approved Resources
+        <span id="noteCount" style="background:var(--g1);color:var(--g8);padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;margin-left:4px;">0</span>
+      </h3>
+      <div class="fg" style="margin-bottom:10px;"><input type="text" id="notesSearch" placeholder="🔍 Search resources..." oninput="filterNotes()"></div>
+      <div id="notesList"></div>
+      <p id="noNotes" style="text-align:center;color:var(--gr5);font-size:13px;padding:24px 0;"><span id="noNotesMsg">Loading...</span></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ADMIN PANEL -->
+<section id="adminpanel" style="display:none;">
+<div class="con">
+  <div class="admin-panel">
+    <h2>🛡️ Admin Control Panel <span class="adminbadge">ADMIN</span></h2>
+    <p style="color:var(--gr5);font-size:14px;margin-bottom:20px;">Full control over all uploads, users and portal content</p>
+
+    <!-- Stats -->
+    <div class="admin-stats">
+      <div class="admin-stat"><div class="num" id="aStat1">0</div><div class="lbl">Total Resources</div></div>
+      <div class="admin-stat warn"><div class="num" id="aStat2">0</div><div class="lbl">Pending Review</div></div>
+      <div class="admin-stat"><div class="num" id="aStat3">0</div><div class="lbl">Approved</div></div>
+      <div class="admin-stat"><div class="num" id="aStat4">0</div><div class="lbl">Rejected</div></div>
+      <div class="admin-stat"><div class="num" id="aStat5">0</div><div class="lbl">Registered Users</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="atabs">
+      <button class="atab active" onclick="switchAdminTab('pending',this)">⏳ Pending (<span id="pendingCount">0</span>)</button>
+      <button class="atab" onclick="switchAdminTab('approved',this)">✅ Approved</button>
+      <button class="atab" onclick="switchAdminTab('rejected',this)">❌ Rejected</button>
+      <button class="atab" onclick="switchAdminTab('users',this)">👥 Users</button>
+      <button class="atab" onclick="switchAdminTab('settings',this)">⚙️ Settings</button>
+    </div>
+
+    <!-- Pending -->
+    <div id="adminTab-pending">
+      <div id="pendingList"></div>
+      <p id="noPending" style="text-align:center;color:var(--gr5);padding:28px 0;font-size:14px;">No pending submissions ✅</p>
+    </div>
+
+    <!-- Approved -->
+    <div id="adminTab-approved" style="display:none;">
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead><tr><th>Title</th><th>Subject</th><th>Uploaded By</th><th>Date</th><th>Type</th><th>Action</th></tr></thead>
+          <tbody id="approvedTableBody"></tbody>
+        </table>
+      </div>
+      <p id="noApproved" style="text-align:center;color:var(--gr5);padding:20px 0;font-size:14px;display:none;">No approved resources yet.</p>
+    </div>
+
+    <!-- Rejected -->
+    <div id="adminTab-rejected" style="display:none;">
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead><tr><th>Title</th><th>Subject</th><th>Uploaded By</th><th>Reason</th><th>Action</th></tr></thead>
+          <tbody id="rejectedTableBody"></tbody>
+        </table>
+      </div>
+      <p id="noRejected" style="text-align:center;color:var(--gr5);padding:20px 0;font-size:14px;display:none;">No rejected resources.</p>
+    </div>
+
+    <!-- Users -->
+    <div id="adminTab-users" style="display:none;">
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead><tr><th>Name</th><th>Email</th><th>Roll No.</th><th>Year</th><th>Uploads</th><th>Action</th></tr></thead>
+          <tbody id="usersTableBody"></tbody>
+        </table>
+      </div>
+      <p id="noUsers" style="text-align:center;color:var(--gr5);padding:20px 0;font-size:14px;display:none;">No registered users yet.</p>
+    </div>
+
+    <!-- Settings -->
+    <div id="adminTab-settings" style="display:none;">
+      <div class="tcol" style="margin-top:4px;">
+        <div>
+          <h4 style="font-size:14px;font-weight:600;margin-bottom:14px;color:var(--gr7);">⚙️ Portal Settings</h4>
+          <div class="fg">
+            <label>Admin Password (change)</label>
+            <input type="password" id="newAdminPass" placeholder="Enter new admin password">
+          </div>
+          <div class="fg">
+            <label>Confirm New Password</label>
+            <input type="password" id="confirmAdminPass" placeholder="Confirm new password">
+          </div>
+          <button class="bp" style="padding:10px 20px;" onclick="changeAdminPass()">Update Password</button>
+          <div id="passAlert" style="margin-top:10px;"></div>
+        </div>
+        <div>
+          <h4 style="font-size:14px;font-weight:600;margin-bottom:14px;color:var(--gr7);">🗂️ Data Management</h4>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <button class="bs" style="background:#e0eeff;color:#1d6fd8;padding:10px 16px;border:1px solid #bfdbfe;" onclick="exportData()">📥 Export All Data (JSON)</button>
+            <button class="bs" style="background:var(--r1);color:var(--r5);padding:10px 16px;border:1px solid #fecaca;" onclick="clearRejected()">🗑️ Clear All Rejected</button>
+            <button class="bs" style="background:var(--r1);color:var(--r5);padding:10px 16px;border:1px solid #fecaca;" onclick="resetPortal()">⚠️ Reset Entire Portal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="con">
+  <h2 class="stitle">🧪 Agriculture Quiz</h2>
+  <p class="ssub">Test your knowledge — select a subject to begin</p>
+  <div class="qsec">
+    <div id="quizSubjectSelect">
+      <p style="font-size:14px;font-weight:500;margin-bottom:14px;color:var(--gr5);">Choose a subject:</p>
+      <div class="qsubs" id="quizSubjectBtns"></div>
+    </div>
+    <div id="quizArea" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <span id="quizSubjectLabel" style="font-size:13px;font-weight:600;color:var(--g7);background:var(--g0);padding:5px 14px;border-radius:20px;border:1px solid var(--g1);"></span>
+        <span id="quizCounter" style="font-size:13px;color:var(--gr5);"></span>
+      </div>
+      <div class="qprog"><div class="qpf" id="quizBar" style="width:0%"></div></div>
+      <div id="quizQsContainer"></div>
+      <div id="quizResult" style="display:none;" class="qres">
+        <div class="bsc" id="quizScoreNum"></div>
+        <p id="quizScoreMsg"></p>
+        <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="bp" onclick="restartQuiz()">🔄 Try Again</button>
+          <button class="bs bgh" style="padding:10px 20px;" onclick="changeSubject()">📚 Change Subject</button>
+        </div>
+      </div>
+      <div class="qnav" id="quizNav">
+        <button class="bs bgh" style="padding:10px 20px;" id="prevBtn" onclick="prevQ()">← Previous</button>
+        <button class="bp" id="nextBtn" onclick="nextQ()">Next →</button>
+        <button class="bp" id="submitBtn" onclick="submitQuiz()" style="display:none;">✅ Submit Quiz</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sbg">
+<div class="con">
+  <h2 class="stitle">📬 Contact</h2>
+  <p class="ssub">Faculty of Agriculture, BHU</p>
+  <div class="cgrid">
+    <div class="ccard"><h4>🏛️ Address</h4><p>Faculty of Agriculture<br>Banaras Hindu University<br>Varanasi, UP — 221005</p></div>
+    <div class="ccard"><h4>📧 Email</h4><p><a href="mailto:agriculture@bhu.ac.in" style="color:var(--b5);">agriculture@bhu.ac.in</a></p></div>
+    <div class="ccard"><h4>📞 Phone</h4><p>+91-542-2307134</p></div>
+    <div class="ccard"><h4>⏰ Hours</h4><p>Mon–Fri: 9 AM – 5 PM<br>Sat: 10 AM – 2 PM</p></div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <p>🌿 BHU Agriculture e-Learning Portal · Banaras Hindu University</p>
+  <p>© 2026 Faculty of Agriculture, BHU, Varanasi</p>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="mov" id="loginModal">
+  <div class="mbox">
+    <button class="mcl" onclick="closeModal()">✕</button>
+    <h2>🎓 Student Portal</h2>
+    <p class="sub">Login or create an account</p>
+    <div class="mtabs">
+      <button class="mtab active" onclick="switchTab('login',this)">Login</button>
+      <button class="mtab" onclick="switchTab('register',this)">Register</button>
+    </div>
+    <div class="tpan active" id="loginPanel">
+      <div id="loginAlert"></div>
+      <div class="fg"><label>Email</label><input type="email" id="loginEmail" placeholder="student@bhu.ac.in"></div>
+      <div class="fg"><label>Password</label><input type="password" id="loginPass" placeholder="Your password"></div>
+      <button class="bp" style="width:100%;padding:11px;" id="loginSubmitBtn" onclick="doLogin()">Login →</button>
+      <p style="text-align:center;font-size:12px;color:var(--gr5);margin-top:12px;">
+        Demo student: <strong>demo@bhu.ac.in</strong> / <strong>bhu2025</strong><br>
+        Admin login: <strong>admin@bhu.ac.in</strong> / <strong>admin2025</strong>
+      </p>
+    </div>
+    <div class="tpan" id="registerPanel">
+      <div id="regAlert"></div>
+      <div class="fg"><label>Full Name *</label><input type="text" id="regName" placeholder="e.g. Arjun Kumar"></div>
+      <div class="fg"><label>Email *</label><input type="email" id="regEmail" placeholder="student@bhu.ac.in"></div>
+      <div class="fg"><label>Roll Number</label><input type="text" id="regRoll" placeholder="e.g. 21AG0052"></div>
+      <div class="fg"><label>Year</label>
+        <select id="regYear">
+          <option>B.Sc. Ag. Year 1</option><option>B.Sc. Ag. Year 2</option>
+          <option>B.Sc. Ag. Year 3</option><option>B.Sc. Ag. Year 4</option>
+          <option>M.Sc. Ag. Year 1</option><option>M.Sc. Ag. Year 2</option>
+        </select>
+      </div>
+      <div class="fg"><label>Password * (min 6 chars)</label><input type="password" id="regPass" placeholder="Create password"></div>
+      <button class="bp" style="width:100%;padding:11px;" id="regSubmitBtn" onclick="doRegister()">Create Account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP MODAL -->
+<div class="mov" id="setupModal">
+  <div class="mbox" style="max-width:500px;">
+    <button class="mcl" onclick="document.getElementById('setupModal').classList.remove('open')">✕</button>
+    <h2>⚡ JSONBin Setup</h2>
+    <p class="sub">Connect free cloud database — all devices share uploads instantly.</p>
+    <div class="step"><div class="step-num">1</div><p>Go to <a href="https://jsonbin.io" target="_blank" style="color:var(--b5);"><strong>jsonbin.io</strong></a> → click <strong>Sign Up Free</strong> (use Google)</p></div>
+    <div class="step"><div class="step-num">2</div><p>After login → click your <strong>profile icon</strong> (top right) → <strong>API Keys</strong> → copy the <strong>Secret Key</strong></p></div>
+    <div class="step"><div class="step-num">3</div><p>Paste it below and click <strong>Connect</strong> — done!</p></div>
+    <div id="fbAlert" style="margin-top:14px;"></div>
+    <div class="fg" style="margin-top:10px;"><label>JSONBin Secret API Key</label><input type="text" id="jbApiKey" placeholder="$2b$10$..."></div>
+    <button class="bp" style="width:100%;padding:12px;" onclick="saveJBConfig()">⚡ Connect &amp; Go Live</button>
+    <p style="font-size:12px;color:var(--gr5);margin-top:10px;text-align:center;">Free up to 10,000 requests/month. Your key stays in your browser only.</p>
+  </div>
+</div>
+
+<!-- REJECT REASON MODAL -->
+<div class="mov" id="rejectModal">
+  <div class="mbox" style="max-width:400px;">
+    <button class="mcl" onclick="document.getElementById('rejectModal').classList.remove('open')">✕</button>
+    <h2>❌ Reject Resource</h2>
+    <p class="sub">Provide a reason so the student can improve their submission.</p>
+    <div class="fg"><label>Reason for Rejection *</label>
+      <textarea id="rejectReason" rows="3" placeholder="e.g. Low quality scan, wrong subject, duplicate content..."></textarea>
+    </div>
+    <button class="bp" style="width:100%;padding:11px;" onclick="confirmReject()">Confirm Rejection</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// SUBJECT DATA
+// ============================================================
+var subjects=[
+  {name:'Agronomy',icon:'🌾',cat:'core',badge:'Popular',bc:'bpop',desc:'Crop production and soil management for optimal yield.',topics:['Crop Production','Weed Management','Irrigation','Tillage Systems'],tags:['#crops','#soil']},
+  {name:'Horticulture',icon:'🍎',cat:'applied',badge:'New',bc:'bnew',desc:'Cultivating fruits, vegetables, flowers and ornamental plants.',topics:['Fruit Science','Vegetable Production','Floriculture','Post-harvest Tech'],tags:['#fruits','#flowers']},
+  {name:'Soil Science',icon:'🪨',cat:'science',badge:'',bc:'',desc:'Physical, chemical and biological properties of soils.',topics:['Soil Chemistry','Soil Fertility','Soil Physics','Soil Microbiology'],tags:['#soil','#nutrients']},
+  {name:'Plant Physiology',icon:'🌿',cat:'science',badge:'',bc:'',desc:'Plant growth, development and metabolism.',topics:['Photosynthesis','Respiration','Transpiration','Hormonal Regulation'],tags:['#growth','#metabolism']},
+  {name:'Genetics and Plant Breeding',icon:'🧬',cat:'science',badge:'Popular',bc:'bpop',desc:'Heredity, variation and improvement of crop plants.',topics:['Mendelian Genetics','Hybridization','Mutation Breeding','MAS'],tags:['#genetics','#DNA']},
+  {name:'Plant Pathology',icon:'🔬',cat:'applied',badge:'',bc:'',desc:'Plant diseases and disease management.',topics:['Fungal Diseases','Bacterial Diseases','Virus Diseases','IDM'],tags:['#disease','#fungi']},
+  {name:'Entomology',icon:'🐛',cat:'applied',badge:'',bc:'',desc:'Insects affecting agriculture and their management.',topics:['Insect Pests','IPM','Beneficial Insects','Pesticides'],tags:['#insects','#IPM']},
+  {name:'Agricultural Meteorology',icon:'🌦️',cat:'science',badge:'',bc:'',desc:'Weather and climate effects on crop production.',topics:['Weather Forecasting','Climate Change','Rainfall Analysis','ET'],tags:['#weather','#climate']},
+  {name:'Agricultural Economics',icon:'📊',cat:'applied',badge:'',bc:'',desc:'Economic principles applied to farming and markets.',topics:['Farm Finance','Ag Marketing','Demand and Supply','Agribusiness'],tags:['#economics','#market']}
+];
+
+var quizBank={
+  'Agronomy':[
+    {q:'Which nutrient is responsible for vegetative growth?',opts:['Phosphorus','Nitrogen','Potassium','Calcium'],ans:1,exp:'Nitrogen promotes leafy growth and chlorophyll formation.'},
+    {q:'Critical period of weed competition is:',opts:['At harvest','First 20-45 days','After 60 days','At flowering'],ans:1,exp:'Crops are most vulnerable in the first 20-45 days.'},
+    {q:'Highest water use efficiency irrigation:',opts:['Flood','Furrow','Sprinkler','Drip'],ans:3,exp:'Drip delivers water directly to roots with minimal loss.'},
+    {q:'NPK stands for:',opts:['Nitrogen Phosphorus Potassium','Nitrogen Potash Kalium','Nutrients Phosphorus Kalium','None'],ans:0,exp:'N=Nitrogen, P=Phosphorus, K=Potassium.'},
+    {q:'Kharif crops are sown in:',opts:['March-April','October-November','June-July','January-February'],ans:2,exp:'Kharif crops sown at start of rainy season (June-July).'}
+  ],
+  'Soil Science':[
+    {q:'Ideal soil pH for most crops:',opts:['4.0-5.0','5.5-7.5','8.0-9.0','3.0-4.0'],ans:1,exp:'Most crops grow best at pH 5.5-7.5.'},
+    {q:'Highest water holding capacity soil:',opts:['Sandy','Clay','Loamy','Silty'],ans:1,exp:'Clay has fine particles with large surface area.'},
+    {q:'Humus is formed from:',opts:['Minerals','Decomposed organic matter','Rock particles','Fertilizers'],ans:1,exp:'Humus is stable organic matter from decomposed material.'},
+    {q:'Rhizobium fixes nitrogen in:',opts:['Wheat','Maize','Legumes','Rice'],ans:2,exp:'Rhizobium fixes N2 in nodules on legume roots.'},
+    {q:'Soil salinity caused by:',opts:['Leaching','Waterlogging','Excess irrigation without drainage','Erosion'],ans:2,exp:'Salts accumulate when excess irrigation has no drainage.'}
+  ],
+  'Plant Pathology':[
+    {q:'Bordeaux mixture controls:',opts:['Insects','Fungal diseases','Bacteria','Nematodes'],ans:1,exp:'CuSO4 + lime is a classic copper fungicide.'},
+    {q:'Late blight of potato caused by:',opts:['Fusarium','Phytophthora infestans','Alternaria','Pythium'],ans:1,exp:'P. infestans caused the Irish potato famine.'},
+    {q:'Cancer of wheat:',opts:['Loose smut','Rust','Karnal bunt','Powdery mildew'],ans:1,exp:'Wheat rust is called cancer of wheat.'},
+    {q:'Biological control uses:',opts:['Chemicals','Beneficial microorganisms','Irrigation','None'],ans:1,exp:'Trichoderma suppresses plant pathogens naturally.'},
+    {q:'Systemic fungicides:',opts:['Coat surface','Seed only','Move through plant','Soil only'],ans:2,exp:'Systemic fungicides translocate inside the plant.'}
+  ],
+  'Genetics and Plant Breeding':[
+    {q:'Father of Genetics:',opts:['Darwin','Gregor Mendel','de Vries','Morgan'],ans:1,exp:'Mendel discovered laws of heredity.'},
+    {q:'Heterosis means:',opts:['Inbreeding depression','Hybrid vigour','Mutation','Polyploidy'],ans:1,exp:'Superior performance of hybrids over parents.'},
+    {q:'Chromosome number in bread wheat:',opts:['14','28','42','56'],ans:2,exp:'T. aestivum: 2n=6x=42.'},
+    {q:'IR-8 is variety of:',opts:['Wheat','Maize','Rice','Sorghum'],ans:2,exp:'IR-8 was first semi-dwarf Green Revolution rice.'},
+    {q:'DNA double helix by:',opts:['Mendel and Morgan','Watson and Crick','Avery and MacLeod','Beadle and Tatum'],ans:1,exp:'Watson and Crick, 1953.'}
+  ],
+  'Entomology':[
+    {q:'Malaria vector:',opts:['Culex','Aedes','Anopheles','Housefly'],ans:2,exp:'Anopheles transmits Plasmodium.'},
+    {q:'IPM stands for:',opts:['Integrated Pest Management','International Pest Method','Insect Pest Mode','None'],ans:0,exp:'IPM combines all control strategies.'},
+    {q:'Natural enemy of aphids:',opts:['Locust','Ladybird beetle','Whitefly','Mealybug'],ans:1,exp:'Ladybird beetles are voracious aphid predators.'},
+    {q:'Butterfly metamorphosis:',opts:['Incomplete','Complete','Hemimetabolism','None'],ans:1,exp:'Complete: egg to larva to pupa to adult.'},
+    {q:'BT used as:',opts:['Fertilizer','Bioinsecticide','Fungicide','Herbicide'],ans:1,exp:'BT proteins are toxic to insect larvae.'}
+  ]
+};
+
+// ============================================================
+// STATE
+// ============================================================
+var currentUser=null, notes=[], pendingNotes=[], users=[];
+var jbApiKey='', jbBinId='', liveMode=false;
+var currentQ=0, selectedQuizSubject='', quizQs=[], quizAnswers=[], quizDone=false;
+var selectedFile=null, selectedFileData='';
+var rejectTargetId=null;
+var autoRefreshTimer=null;
+var ADMIN_EMAIL='admin@bhu.ac.in';
+var ADMIN_PASS='admin2025';
+var ADMIN_PASS_KEY='bhuAdminPass';
+
+// ============================================================
+// JSONBIN
+// ============================================================
+async function jbGet(){
+  var res=await fetch('https://api.jsonbin.io/v3/b/'+jbBinId+'/latest',{headers:{'X-Master-Key':jbApiKey,'X-Bin-Meta':'false'}});
+  if(!res.ok) throw new Error('Fetch failed '+res.status);
+  return await res.json();
+}
+async function jbSet(data){
+  var res=await fetch('https://api.jsonbin.io/v3/b/'+jbBinId,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':jbApiKey},body:JSON.stringify(data)});
+  if(!res.ok) throw new Error('Save failed '+res.status);
+  return await res.json();
+}
+async function jbCreate(){
+  var res=await fetch('https://api.jsonbin.io/v3/b',{method:'POST',headers:{'Content-Type':'application/json','X-Master-Key':jbApiKey,'X-Bin-Name':'bhu-portal-data','X-Bin-Private':'false'},body:JSON.stringify({notes:[],pending:[],users:[]})});
+  if(!res.ok) throw new Error('Create failed '+res.status);
+  var d=await res.json(); return d.metadata.id;
+}
+async function saveJBConfig(){
+  var key=document.getElementById('jbApiKey').value.trim();
+  if(!key){showA('fbAlert','Please paste your JSONBin Secret Key.','e');return;}
+  var btn=document.querySelector('#setupModal .bp');
+  btn.disabled=true; btn.innerHTML='<span class="loader"></span>Connecting...';
+  try{
+    jbApiKey=key;
+    var binId=localStorage.getItem('bhuJBBinId');
+    if(!binId){binId=await jbCreate();localStorage.setItem('bhuJBBinId',binId);}
+    jbBinId=binId;
+    await jbGet();
+    localStorage.setItem('bhuJBKey',key);
+    liveMode=true;
+    document.getElementById('setupBanner').style.display='none';
+    document.getElementById('liveBadge').style.display='inline-flex';
+    showA('fbAlert','Connected! All uploads now sync live for every student.','s');
+    await loadFromJB();
+    startAutoRefresh();
+    setTimeout(function(){document.getElementById('setupModal').classList.remove('open');},2000);
+  }catch(e){showA('fbAlert','Failed: '+e.message,'e');}
+  btn.disabled=false; btn.innerHTML='Connect & Go Live';
+}
+async function loadConfig(){
+  var key=localStorage.getItem('bhuJBKey'), binId=localStorage.getItem('bhuJBBinId');
+  if(key&&binId){
+    jbApiKey=key; jbBinId=binId;
+    try{
+      await jbGet(); liveMode=true;
+      document.getElementById('setupBanner').style.display='none';
+      document.getElementById('liveBadge').style.display='inline-flex';
+      await loadFromJB(); startAutoRefresh();
+    }catch(e){liveMode=false;loadLocal();}
+  }else{loadLocal();}
+}
+async function loadFromJB(){
+  try{
+    var data=await jbGet();
+    notes=data.notes||[];
+    pendingNotes=data.pending||[];
+    users=data.users||[];
+    saveLocal();
+    refreshAll();
+  }catch(e){loadLocal();}
+}
+async function pushToJB(){
+  if(!liveMode) return;
+  try{await jbSet({notes:notes,pending:pendingNotes,users:users});}
+  catch(e){console.warn('JB save failed',e);}
+}
+function loadLocal(){
+  var d=JSON.parse(localStorage.getItem('bhuPortalData')||'{}');
+  notes=d.notes||[];
+  pendingNotes=d.pending||[];
+  users=d.users||[];
+  refreshAll();
+}
+function saveLocal(){
+  try{localStorage.setItem('bhuPortalData',JSON.stringify({notes:notes,pending:pendingNotes,users:users}));}catch(e){}
+}
+function refreshAll(){
+  renderNotes();
+  renderSubjects(subjects);
+  updateStats();
+  if(currentUser&&currentUser.isAdmin) renderAdminPanels();
+}
+function startAutoRefresh(){
+  if(autoRefreshTimer) clearInterval(autoRefreshTimer);
+  autoRefreshTimer=setInterval(async function(){
+    if(liveMode){
+      try{
+        var data=await jbGet();
+        var newNotes=data.notes||[], newPending=data.pending||[], newUsers=data.users||[];
+        if(JSON.stringify(newNotes)!==JSON.stringify(notes)||JSON.stringify(newPending)!==JSON.stringify(pendingNotes)){
+          notes=newNotes; pendingNotes=newPending; users=newUsers;
+          saveLocal(); refreshAll();
+        }
+      }catch(e){}
+    }
+  },15000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.onload=function(){
+  var savedPass=localStorage.getItem(ADMIN_PASS_KEY);
+  if(savedPass) ADMIN_PASS=savedPass;
+  loadConfig();
+  renderSubjects(subjects);
+  buildQuizSubjectBtns();
+  setupDragDrop();
+  var saved=sessionStorage.getItem('bhuCurrentUser');
+  if(saved){currentUser=JSON.parse(saved);setTimeout(updateUserUI,300);}
+};
+
+// ============================================================
+// DARK / NAV / SCROLL
+// ============================================================
+function toggleDark(){document.body.classList.toggle('dark');document.getElementById('darkToggle').textContent=document.body.classList.contains('dark')?'☀️':'🌙';}
+function setNav(el){document.querySelectorAll('nav.mn a').forEach(function(a){a.classList.remove('active');});el.classList.add('active');}
+function scrollTo2(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+// ============================================================
+// RENDER SUBJECTS
+// ============================================================
+function renderSubjects(list){
+  var c=document.getElementById('subjectContainer');
+  if(!list.length){c.innerHTML='<p style="color:var(--gr5);grid-column:1/-1;padding:20px 0;">No subjects found.</p>';return;}
+  c.innerHTML=list.map(function(s){
+    var sn=notes.filter(function(n){return n.subject===s.name&&n.status==='approved';});
+    var pdfs=sn.filter(function(n){return n.type==='PDF';});
+    var vids=sn.filter(function(n){return n.type==='Video'||n.type==='Link';});
+    var cb=sn.length>0?'<span style="font-size:11px;background:var(--g1);color:var(--g8);padding:2px 8px;border-radius:20px;margin-left:6px;">'+sn.length+(sn.length>1?' resources':' resource')+'</span>':'';
+    return '<div class="card" data-cat="'+s.cat+'">'
+      +(s.badge?'<span class="cbadge '+s.bc+'">'+s.badge+'</span>':'')
+      +'<div style="font-size:26px;margin-bottom:10px;">'+s.icon+'</div>'
+      +'<h3>'+s.name+cb+'</h3><p>'+s.desc+'</p>'
+      +'<ul>'+s.topics.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>'
+      +'<div>'+s.tags.map(function(t){return '<span class="stag">'+t+'</span>';}).join('')+'</div>'
+      +'<div class="cact">'
+        +'<button class="bs bsg" onclick="openViewer(\''+s.name+'\',\'video\')">▶ Lectures'+(vids.length?' ('+vids.length+')':'')+'</button>'
+        +'<button class="bs bgh" onclick="openViewer(\''+s.name+'\',\'pdf\')">📄 Notes'+(pdfs.length?' ('+pdfs.length+')':'')+'</button>'
+      +'</div></div>';
+  }).join('');
+}
+function searchSubjects(){
+  var q=document.getElementById('searchInput').value.toLowerCase();
+  var cat=document.getElementById('filterSelect').value;
+  renderSubjects(subjects.filter(function(s){
+    return(!q||s.name.toLowerCase().includes(q)||s.topics.some(function(t){return t.toLowerCase().includes(q);}))&&(!cat||s.cat===cat);
+  }));
+}
+
+// ============================================================
+// RESOURCE VIEWER
+// ============================================================
+function openViewer(subjectName,filterType){
+  var all=notes.filter(function(n){return n.subject===subjectName&&n.status==='approved';});
+  var items=all;
+  if(filterType==='pdf') items=all.filter(function(n){return n.type==='PDF';});
+  if(filterType==='video') items=all.filter(function(n){return n.type==='Video'||n.type==='Link';});
+  if(!items.length) items=all;
+  var typeLabel=filterType==='pdf'?'Notes and PDFs':'Video Lectures';
+  var ex=document.getElementById('viewerModal');
+  if(ex) ex.remove();
+  var rows=items.length===0
+    ?'<div style="text-align:center;padding:44px 20px;"><div style="font-size:48px;margin-bottom:14px;">📭</div><p style="font-size:15px;font-weight:600;color:#374151;">No '+typeLabel+' yet for '+subjectName+'</p><p style="font-size:13px;color:#9ca3af;margin-top:6px;">Submit resources in the Upload section!</p></div>'
+    :items.map(function(n){
+      var icon=n.type==='Video'?'🎬':n.type==='Link'?'🔗':'📄';
+      var isOwner=currentUser&&(n.uploader===currentUser.name||currentUser.isAdmin);
+      return '<div style="border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin-bottom:12px;background:#fafafa;">'
+        +'<div style="display:flex;gap:12px;align-items:flex-start;">'
+        +'<span style="font-size:28px;flex-shrink:0;">'+icon+'</span>'
+        +'<div style="flex:1;min-width:0;">'
+        +'<strong style="font-size:15px;color:#145232;display:block;margin-bottom:3px;">'+n.title+'</strong>'
+        +'<span style="font-size:12px;color:#6b7280;">'+(n.date||'')+' · By <strong>'+(n.uploader||'Student')+'</strong></span>'
+        +(n.desc?'<p style="font-size:13px;color:#6b7280;margin-top:4px;">'+n.desc+'</p>':'')
+        +'<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">'
+        +(n.fileURL&&n.fileURL.startsWith('http')?'<a href="'+n.fileURL+'" target="_blank" style="background:#1e8a53;color:white;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">📂 Open / Download</a>':'')
+        +(n.fileURL&&n.fileURL.startsWith('data:')?'<a href="'+n.fileURL+'" download="'+(n.fileName||'file')+'" style="background:#1e8a53;color:white;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">📥 Download</a>':'')
+        +(n.link?'<a href="'+n.link+'" target="_blank" style="background:#e0eeff;color:#1d6fd8;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">🔗 Open Link</a>':'')
+        +(isOwner?'<button onclick="adminDeleteNote(\''+n.id+'\');document.getElementById(\'viewerModal\').remove();" style="background:#fde8e8;color:#991b1b;border:none;padding:8px 14px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;">🗑 Delete</button>':'')
+        +'</div></div></div></div>';
+    }).join('');
+  document.body.insertAdjacentHTML('beforeend',
+    '<div id="viewerModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;" onclick="if(event.target===this)this.remove()">'
+    +'<div style="background:white;border-radius:16px;width:100%;max-width:600px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.3);">'
+    +'<div style="padding:18px 22px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;">'
+    +'<div><h3 style="font-size:17px;font-weight:700;color:#145232;">'+subjectName+'</h3>'
+    +'<p style="font-size:13px;color:#6b7280;margin-top:2px;">'+typeLabel+' — '+items.length+' item'+(items.length!==1?'s':'')+'</p></div>'
+    +'<button onclick="document.getElementById(\'viewerModal\').remove()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#9ca3af;">✕</button></div>'
+    +'<div style="overflow-y:auto;padding:18px 22px;flex:1;">'+rows+'</div>'
+    +'</div></div>');
+}
+
+// ============================================================
+// FILE HANDLING
+// ============================================================
+function handleFile(input){
+  if(!input.files.length) return;
+  var file=input.files[0];
+  if(file.size>4*1024*1024){
+    alert('File is larger than 4MB.\n\nPlease upload to Google Drive and paste the link instead.');
+    input.value=''; return;
+  }
+  selectedFile=file;
+  document.getElementById('fileLabel').textContent='Selected: '+file.name+' ('+Math.round(file.size/1024)+' KB)';
+  var prog=document.getElementById('uploadProg'); prog.style.display='block';
+  var reader=new FileReader();
+  reader.onprogress=function(e){if(e.lengthComputable)document.getElementById('uploadProgFill').style.width=(e.loaded/e.total*80)+'%';};
+  reader.onload=function(e){selectedFileData=e.target.result;document.getElementById('uploadProgFill').style.width='100%';setTimeout(function(){prog.style.display='none';},800);};
+  reader.readAsDataURL(file);
+}
+
+// ============================================================
+// ADD NOTE (Submit for Review)
+// ============================================================
+async function addNote(){
+  var title=document.getElementById('noteTitle').value.trim();
+  var subject=document.getElementById('subjectSelect').value;
+  var link=document.getElementById('noteLink').value.trim();
+  var type=document.getElementById('resourceType').value;
+  var desc=document.getElementById('noteDesc').value.trim();
+  if(!title||!subject){showA('uploadAlert','Please fill in Title and Subject.','e');return;}
+  if(!link&&!selectedFileData){showA('uploadAlert','Please paste a link or choose a file.','e');return;}
+  var uploader=currentUser?currentUser.name:'Guest';
+  var date=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  var btn=document.getElementById('uploadBtn');
+  btn.disabled=true; btn.innerHTML='<span class="loader"></span>Submitting...';
+  var note={
+    id:Date.now().toString(),
+    title:title,subject:subject,link:link,type:type,desc:desc,
+    uploader:uploader,date:date,
+    fileURL:selectedFileData||'',
+    fileName:selectedFile?selectedFile.name:'',
+    status:'pending',
+    submittedAt:new Date().toISOString()
+  };
+  // If admin is uploading, auto-approve
+  if(currentUser&&currentUser.isAdmin) note.status='approved';
+  if(note.status==='approved'){
+    notes.unshift(note);
+  } else {
+    pendingNotes.unshift(note);
+  }
+  saveLocal();
+  await pushToJB();
+  refreshAll();
+  if(note.status==='approved'){
+    showA('uploadAlert','Uploaded and published instantly!','s');
+  } else {
+    showA('uploadAlert','Submitted for admin review! It will appear once approved.','s');
+  }
+  document.getElementById('noteTitle').value='';
+  document.getElementById('noteLink').value='';
+  document.getElementById('noteDesc').value='';
+  document.getElementById('fileLabel').textContent='Click or drag and drop file here';
+  document.getElementById('fileInput').value='';
+  selectedFile=null; selectedFileData='';
+  btn.disabled=false; btn.innerHTML='📨 Submit for Review';
+}
+
+// ============================================================
+// RENDER APPROVED NOTES LIST
+// ============================================================
+function renderNotes(filter){
+  filter=filter||'';
+  var list=document.getElementById('notesList');
+  var noNotes=document.getElementById('noNotes');
+  var filtered=notes.filter(function(n){
+    return n.status==='approved'&&(!filter||n.title.toLowerCase().includes(filter)||n.subject.toLowerCase().includes(filter));
+  });
+  document.getElementById('noteCount').textContent=filtered.length;
+  if(!filtered.length){
+    list.innerHTML=''; noNotes.style.display='block';
+    document.getElementById('noNotesMsg').textContent=notes.length===0?'No approved resources yet.':'No results found.';
+    return;
+  }
+  noNotes.style.display='none';
+  list.innerHTML=filtered.map(function(n){
+    var icon=n.type==='Video'?'🎬':n.type==='Link'?'🔗':'📄';
+    var canDel=currentUser&&(n.uploader===currentUser.name||currentUser.isAdmin);
+    var openBtn=(n.fileURL&&n.fileURL.startsWith('data:'))
+      ?'<a href="'+n.fileURL+'" download="'+(n.fileName||'file')+'" class="bs bsg" style="font-size:12px;padding:5px 12px;">📥 Download</a>'
+      :n.fileURL?'<a href="'+n.fileURL+'" target="_blank" class="bs bsg" style="font-size:12px;padding:5px 12px;">📂 Open</a>':'';
+    var linkBtn=n.link?'<a href="'+n.link+'" target="_blank" class="bs bgh" style="font-size:12px;padding:5px 12px;">🔗 Open Link</a>':'';
+    return '<div class="ni">'
+      +'<div class="nico">'+icon+'</div>'
+      +'<div class="ninf">'
+        +'<strong>'+n.title+'</strong>'
+        +'<span>'+n.subject+' · '+(n.date||'')+' · '+(n.uploader||'Student')+'</span>'
+        +(n.desc?'<p style="font-size:12px;color:var(--gr5);margin-top:2px;">'+n.desc+'</p>':'')
+        +'<div style="margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;">'+openBtn+linkBtn+'</div>'
+      +'</div>'
+      +(canDel?'<button class="ndel" onclick="adminDeleteNote(\''+n.id+'\')" title="Delete">🗑</button>':'')
+    +'</div>';
+  }).join('');
+}
+function filterNotes(){renderNotes(document.getElementById('notesSearch').value.trim().toLowerCase());}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats(){
+  var approved=notes.filter(function(n){return n.status==='approved';}).length;
+  var pending=pendingNotes.length;
+  var rejected=notes.filter(function(n){return n.status==='rejected';}).length;
+  document.getElementById('statUploads').textContent=approved;
+  document.getElementById('statPending').textContent=pending;
+  if(document.getElementById('aStat1')){
+    document.getElementById('aStat1').textContent=notes.length+pending;
+    document.getElementById('aStat2').textContent=pending;
+    document.getElementById('aStat3').textContent=approved;
+    document.getElementById('aStat4').textContent=rejected;
+    document.getElementById('aStat5').textContent=users.length;
+    document.getElementById('pendingCount').textContent=pending;
+  }
+}
+
+// ============================================================
+// ADMIN PANEL
+// ============================================================
+var currentAdminTab='pending';
+function switchAdminTab(tab,btn){
+  currentAdminTab=tab;
+  document.querySelectorAll('.atab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  ['pending','approved','rejected','users','settings'].forEach(function(t){
+    var el=document.getElementById('adminTab-'+t);
+    if(el) el.style.display=t===tab?'block':'none';
+  });
+  renderAdminPanels();
+}
+
+function renderAdminPanels(){
+  renderPendingList();
+  renderApprovedTable();
+  renderRejectedTable();
+  renderUsersTable();
+  updateStats();
+}
+
+function renderPendingList(){
+  var list=document.getElementById('pendingList');
+  var noPending=document.getElementById('noPending');
+  if(!pendingNotes.length){list.innerHTML='';noPending.style.display='block';return;}
+  noPending.style.display='none';
+  list.innerHTML=pendingNotes.map(function(n){
+    var icon=n.type==='Video'?'🎬':n.type==='Link'?'🔗':'📄';
+    var fileBtn=(n.fileURL&&n.fileURL.startsWith('data:'))
+      ?'<a href="'+n.fileURL+'" download="'+(n.fileName||'file')+'" style="color:var(--b5);font-size:12px;">📥 Preview File</a>'
+      :n.fileURL?'<a href="'+n.fileURL+'" target="_blank" style="color:var(--b5);font-size:12px;">📂 Preview</a>':'';
+    var linkBtn=n.link?'<a href="'+n.link+'" target="_blank" style="color:var(--b5);font-size:12px;">🔗 Open Link</a>':'';
+    return '<div class="pending-item">'
+      +'<div style="display:flex;gap:10px;align-items:flex-start;">'
+      +'<span style="font-size:24px;flex-shrink:0;">'+icon+'</span>'
+      +'<div style="flex:1;">'
+      +'<strong>'+n.title+'</strong>'
+      +'<span>'+n.subject+' · Submitted by <strong>'+n.uploader+'</strong> on '+(n.date||'')+'</span>'
+      +(n.desc?'<p style="font-size:12px;color:#78350f;margin-top:3px;">'+n.desc+'</p>':'')
+      +'<div style="margin-top:6px;display:flex;gap:10px;flex-wrap:wrap;">'+fileBtn+linkBtn+'</div>'
+      +'<div class="pending-actions">'
+        +'<button class="approve-btn" onclick="approveNote(\''+n.id+'\')">✅ Approve</button>'
+        +'<button class="reject-btn" onclick="openRejectModal(\''+n.id+'\')">❌ Reject</button>'
+      +'</div>'
+      +'</div></div></div>';
+  }).join('');
+}
+
+function renderApprovedTable(){
+  var tbody=document.getElementById('approvedTableBody');
+  var noEl=document.getElementById('noApproved');
+  var approved=notes.filter(function(n){return n.status==='approved';});
+  if(!approved.length){tbody.innerHTML='';noEl.style.display='block';return;}
+  noEl.style.display='none';
+  tbody.innerHTML=approved.map(function(n){
+    var icon=n.type==='Video'?'🎬':n.type==='Link'?'🔗':'📄';
+    return '<tr>'
+      +'<td>'+icon+' '+n.title+'</td>'
+      +'<td>'+n.subject+'</td>'
+      +'<td>'+n.uploader+'</td>'
+      +'<td>'+(n.date||'')+'</td>'
+      +'<td><span class="status-badge status-approved">'+n.type+'</span></td>'
+      +'<td><button onclick="adminDeleteNote(\''+n.id+'\')" style="background:var(--r1);color:var(--r5);border:none;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;">Delete</button></td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderRejectedTable(){
+  var tbody=document.getElementById('rejectedTableBody');
+  var noEl=document.getElementById('noRejected');
+  var rejected=notes.filter(function(n){return n.status==='rejected';});
+  if(!rejected.length){tbody.innerHTML='';noEl.style.display='block';return;}
+  noEl.style.display='none';
+  tbody.innerHTML=rejected.map(function(n){
+    return '<tr>'
+      +'<td>'+n.title+'</td>'
+      +'<td>'+n.subject+'</td>'
+      +'<td>'+n.uploader+'</td>'
+      +'<td style="font-size:12px;color:var(--r5);">'+(n.rejectReason||'No reason given')+'</td>'
+      +'<td>'
+        +'<button onclick="restoreNote(\''+n.id+'\')" style="background:var(--g1);color:var(--g8);border:none;padding:5px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;margin-right:4px;">Restore</button>'
+        +'<button onclick="adminDeleteNote(\''+n.id+'\')" style="background:var(--r1);color:var(--r5);border:none;padding:5px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;">Delete</button>'
+      +'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderUsersTable(){
+  var tbody=document.getElementById('usersTableBody');
+  var noEl=document.getElementById('noUsers');
+  if(!users.length){tbody.innerHTML='';noEl.style.display='block';return;}
+  noEl.style.display='none';
+  tbody.innerHTML=users.map(function(u){
+    var uploadCount=notes.filter(function(n){return n.uploader===u.name;}).length;
+    return '<tr>'
+      +'<td><strong>'+u.name+'</strong></td>'
+      +'<td>'+u.email+'</td>'
+      +'<td>'+(u.roll||'-')+'</td>'
+      +'<td>'+(u.year||'-')+'</td>'
+      +'<td>'+uploadCount+'</td>'
+      +'<td><button onclick="removeUser(\''+u.email+'\')" style="background:var(--r1);color:var(--r5);border:none;padding:5px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;">Remove</button></td>'
+      +'</tr>';
+  }).join('');
+}
+
+// ============================================================
+// ADMIN ACTIONS
+// ============================================================
+async function approveNote(id){
+  var idx=pendingNotes.findIndex(function(n){return n.id===id;});
+  if(idx===-1) return;
+  var note=pendingNotes.splice(idx,1)[0];
+  note.status='approved';
+  note.approvedAt=new Date().toISOString();
+  notes.unshift(note);
+  saveLocal(); await pushToJB(); refreshAll();
+  showA2('Resource approved and published!');
+}
+
+function openRejectModal(id){
+  rejectTargetId=id;
+  document.getElementById('rejectReason').value='';
+  document.getElementById('rejectModal').classList.add('open');
+}
+
+async function confirmReject(){
+  var reason=document.getElementById('rejectReason').value.trim();
+  if(!reason){alert('Please provide a rejection reason.');return;}
+  var idx=pendingNotes.findIndex(function(n){return n.id===rejectTargetId;});
+  if(idx===-1) return;
+  var note=pendingNotes.splice(idx,1)[0];
+  note.status='rejected';
+  note.rejectReason=reason;
+  note.rejectedAt=new Date().toISOString();
+  notes.push(note);
+  document.getElementById('rejectModal').classList.remove('open');
+  saveLocal(); await pushToJB(); refreshAll();
+  showA2('Resource rejected.');
+}
+
+async function adminDeleteNote(id){
+  if(!confirm('Permanently delete this resource?')) return;
+  notes=notes.filter(function(n){return n.id!==id;});
+  saveLocal(); await pushToJB(); refreshAll();
+}
+
+async function restoreNote(id){
+  var idx=notes.findIndex(function(n){return n.id===id;});
+  if(idx===-1) return;
+  notes[idx].status='approved';
+  saveLocal(); await pushToJB(); refreshAll();
+}
+
+async function removeUser(email){
+  if(!confirm('Remove this user account?')) return;
+  users=users.filter(function(u){return u.email!==email;});
+  saveLocal(); await pushToJB(); renderUsersTable(); updateStats();
+}
+
+function changeAdminPass(){
+  var np=document.getElementById('newAdminPass').value;
+  var cp=document.getElementById('confirmAdminPass').value;
+  if(!np||np.length<6){showA('passAlert','Password must be at least 6 characters.','e');return;}
+  if(np!==cp){showA('passAlert','Passwords do not match.','e');return;}
+  ADMIN_PASS=np;
+  localStorage.setItem(ADMIN_PASS_KEY,np);
+  showA('passAlert','Admin password updated successfully!','s');
+  document.getElementById('newAdminPass').value='';
+  document.getElementById('confirmAdminPass').value='';
+}
+
+function exportData(){
+  var data=JSON.stringify({notes:notes,pending:pendingNotes,users:users},null,2);
+  var blob=new Blob([data],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download='bhu-portal-backup.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearRejected(){
+  if(!confirm('Delete all rejected resources permanently?')) return;
+  notes=notes.filter(function(n){return n.status!=='rejected';});
+  saveLocal(); pushToJB(); refreshAll();
+}
+
+function resetPortal(){
+  if(!confirm('RESET EVERYTHING? All uploads and users will be deleted permanently!')) return;
+  if(!confirm('Are you absolutely sure? This cannot be undone!')) return;
+  notes=[]; pendingNotes=[]; users=[];
+  saveLocal(); pushToJB(); refreshAll();
+  alert('Portal has been reset.');
+}
+
+function showA2(msg){
+  var el=document.createElement('div');
+  el.style.cssText='position:fixed;bottom:24px;right:24px;background:#1e8a53;color:white;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);';
+  el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(function(){el.remove();},3000);
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+function openModal(){document.getElementById('loginModal').classList.add('open');}
+function closeModal(){document.getElementById('loginModal').classList.remove('open');}
+document.getElementById('loginModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+function switchTab(tab,btn){
+  document.querySelectorAll('.mtab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tpan').forEach(function(p){p.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById(tab+'Panel').classList.add('active');
+}
+
+function doLogin(){
+  var email=document.getElementById('loginEmail').value.trim().toLowerCase();
+  var pass=document.getElementById('loginPass').value;
+  if(!email||!pass){showA('loginAlert','Please enter email and password.','e');return;}
+  // Admin login
+  if(email===ADMIN_EMAIL&&pass===ADMIN_PASS){
+    setUser({name:'Admin',email:email,isAdmin:true,roll:'ADMIN',year:'Administrator'});
+    return;
+  }
+  // Demo student
+  if(email==='demo@bhu.ac.in'&&pass==='bhu2025'){
+    setUser({name:'Demo Student',email:email,roll:'21AG0001',year:'B.Sc. Ag. Year 1'});
+    return;
+  }
+  // Registered user
+  var u=users.find(function(x){return x.email===email&&x.pass===pass;});
+  if(u){setUser(u);}
+  else{showA('loginAlert','Wrong email or password.','e');}
+}
+
+function doRegister(){
+  var name=document.getElementById('regName').value.trim();
+  var email=document.getElementById('regEmail').value.trim().toLowerCase();
+  var roll=document.getElementById('regRoll').value.trim().toUpperCase();
+  var year=document.getElementById('regYear').value;
+  var pass=document.getElementById('regPass').value;
+  if(!name||!email||!pass){showA('regAlert','Please fill all required fields.','e');return;}
+  if(pass.length<6){showA('regAlert','Password must be at least 6 characters.','e');return;}
+  if(users.find(function(u){return u.email===email;})){showA('regAlert','Email already registered. Please login.','e');return;}
+  var u={name:name,email:email,roll:roll,year:year,pass:pass};
+  users.push(u); saveLocal(); pushToJB();
+  showA('regAlert','Account created! Logging you in...','s');
+  setTimeout(function(){setUser(u);closeModal();},900);
+}
+
+function setUser(u){
+  currentUser=u;
+  sessionStorage.setItem('bhuCurrentUser',JSON.stringify(u));
+  closeModal();
+  updateUserUI();
+}
+
+function updateUserUI(){
+  var initials=currentUser.name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+  var btn=document.getElementById('loginBtn');
+  btn.textContent='🚪 Logout'; btn.onclick=doLogout;
+  var badge=document.getElementById('userBadge');
+  badge.style.display='flex'; badge.className='ubadge';
+  badge.innerHTML='<div class="uav'+(currentUser.isAdmin?' admin-av':'')+'">'+(currentUser.isAdmin?'🛡️':initials)+'</div><span>'+currentUser.name+(currentUser.isAdmin?'<span class="adminbadge" style="font-size:10px;margin-left:4px;">ADMIN</span>':'')+'</span>';
+  // Show/hide admin button and nav
+  if(currentUser.isAdmin){
+    document.getElementById('adminBtn').style.display='block';
+    document.getElementById('adminNavLink').style.display='inline';
+    document.getElementById('adminpanel').style.display='block';
+    renderAdminPanels();
+  }
+  // Profile bar
+  var pb=document.getElementById('profileBar');
+  pb.style.display='flex'; pb.className='pbar';
+  var myCount=notes.filter(function(n){return n.uploader===currentUser.name;}).length;
+  var myPending=pendingNotes.filter(function(n){return n.uploader===currentUser.name;}).length;
+  pb.innerHTML='<div class="pavl'+(currentUser.isAdmin?' admin-pav':'')+'">'+(currentUser.isAdmin?'🛡️':initials)+'</div>'
+    +'<div style="flex:1;">'
+      +'<h4 style="font-size:15px;font-weight:600;">'+currentUser.name+(currentUser.isAdmin?' <span class="adminbadge">ADMIN</span>':'')+'</h4>'
+      +'<span style="font-size:13px;color:var(--gr5);">'+(currentUser.roll?currentUser.roll+' · ':'')+currentUser.year+'</span>'
+    +'</div>'
+    +'<div style="text-align:right;">'
+      +'<div style="font-size:22px;font-weight:700;color:var(--g7);">'+myCount+'</div>'
+      +'<div style="font-size:12px;color:var(--gr5);">Approved</div>'
+    +'</div>'
+    +(myPending>0?'<div style="text-align:right;margin-left:16px;">'
+      +'<div style="font-size:22px;font-weight:700;color:#d97706;">'+myPending+'</div>'
+      +'<div style="font-size:12px;color:var(--gr5);">Pending</div>'
+    +'</div>':'');
+  renderSubjects(subjects);
+}
+
+function doLogout(){
+  currentUser=null; sessionStorage.removeItem('bhuCurrentUser');
+  var btn=document.getElementById('loginBtn');
+  btn.textContent='🎓 Student Login'; btn.onclick=openModal;
+  document.getElementById('userBadge').style.display='none';
+  document.getElementById('profileBar').style.display='none';
+  document.getElementById('adminBtn').style.display='none';
+  document.getElementById('adminNavLink').style.display='none';
+  document.getElementById('adminpanel').style.display='none';
+  renderSubjects(subjects);
+}
+
+// ============================================================
+// QUIZ
+// ============================================================
+function buildQuizSubjectBtns(){
+  document.getElementById('quizSubjectBtns').innerHTML=Object.keys(quizBank).map(function(s){
+    return '<button class="qsb" onclick="startQuiz(\''+s+'\',this)">'+s+'</button>';
+  }).join('');
+}
+function startQuiz(subject,btn){
+  document.querySelectorAll('.qsb').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  selectedQuizSubject=subject;
+  quizQs=quizBank[subject].slice().sort(function(){return Math.random()-.5;});
+  quizAnswers=new Array(quizQs.length).fill(-1);
+  currentQ=0; quizDone=false;
+  document.getElementById('quizSubjectSelect').style.display='none';
+  document.getElementById('quizArea').style.display='block';
+  document.getElementById('quizSubjectLabel').textContent='📚 '+subject;
+  document.getElementById('quizResult').style.display='none';
+  document.getElementById('quizNav').style.display='flex';
+  renderQuizQ();
+}
+function renderQuizQ(){
+  var q=quizQs[currentQ], total=quizQs.length;
+  document.getElementById('quizCounter').textContent='Question '+(currentQ+1)+' of '+total;
+  document.getElementById('quizBar').style.width=((currentQ+1)/total*100)+'%';
+  document.getElementById('prevBtn').style.display=currentQ>0?'block':'none';
+  var isLast=currentQ===total-1;
+  document.getElementById('nextBtn').style.display=isLast?'none':'block';
+  document.getElementById('submitBtn').style.display=isLast?'block':'none';
+  document.getElementById('quizQsContainer').innerHTML=
+    '<div class="qqb active"><h4>Q'+(currentQ+1)+'. '+q.q+'</h4>'
+    +'<div class="qopts">'+q.opts.map(function(o,i){
+      return '<div class="qopt '+(quizAnswers[currentQ]===i?'sel':'')+'" onclick="selectOpt('+i+')">'
+        +'<div class="rc"></div>'+o+'</div>';
+    }).join('')+'</div>'
+    +(quizDone?'<div style="font-size:13px;padding:11px 14px;background:var(--g0);border-radius:8px;border:1px solid var(--g1);color:var(--g8);">💡 <strong>Explanation:</strong> '+q.exp+'</div>':'')
+    +'</div>';
+}
+function selectOpt(i){if(quizDone)return;quizAnswers[currentQ]=i;renderQuizQ();}
+function nextQ(){if(currentQ<quizQs.length-1){currentQ++;renderQuizQ();}}
+function prevQ(){if(currentQ>0){currentQ--;renderQuizQ();}}
+function submitQuiz(){
+  quizDone=true;
+  var score=quizQs.filter(function(q,i){return quizAnswers[i]===q.ans;}).length;
+  var pct=Math.round(score/quizQs.length*100);
+  document.getElementById('quizResult').style.display='block';
+  document.getElementById('quizNav').style.display='none';
+  document.getElementById('quizQsContainer').innerHTML='';
+  document.getElementById('quizScoreNum').textContent=score+'/'+quizQs.length;
+  document.getElementById('quizBar').style.width='100%';
+  var msg=pct>=80?'🎉 Excellent!':pct>=60?'👍 Good work!':pct>=40?'📖 Keep revising.':'😅 Study harder!';
+  document.getElementById('quizScoreMsg').textContent='You scored '+pct+'% — '+msg;
+}
+function restartQuiz(){startQuiz(selectedQuizSubject,document.querySelector('.qsb.active'));}
+function changeSubject(){document.getElementById('quizSubjectSelect').style.display='block';document.getElementById('quizArea').style.display='none';}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showA(elId,msg,type){
+  var el=document.getElementById(elId);
+  if(!el) return;
+  el.innerHTML='<div class="al '+(type==='s'?'als':'ale')+'">'+msg+'</div>';
+  setTimeout(function(){el.innerHTML='';},6000);
+}
+function setupDragDrop(){
+  var zone=document.getElementById('dropZone');
+  if(!zone) return;
+  ['dragenter','dragover'].forEach(function(e){zone.addEventListener(e,function(ev){ev.preventDefault();zone.classList.add('drag');});});
+  ['dragleave','drop'].forEach(function(e){zone.addEventListener(e,function(){zone.classList.remove('drag');});});
+  zone.addEventListener('drop',function(e){
+    e.preventDefault();
+    var f=e.dataTransfer.files[0];
+    if(f){var dt=new DataTransfer();dt.items.add(f);document.getElementById('fileInput').files=dt.files;handleFile(document.getElementById('fileInput'));}
+  });
+}
+</script>
+</body>
+</html>
